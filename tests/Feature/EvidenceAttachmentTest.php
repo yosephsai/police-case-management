@@ -99,9 +99,11 @@ class EvidenceAttachmentTest extends TestCase
 
         Storage::disk('local')->assertExists($evidence->attachment_path);
 
-        $this->actingAs($lead)
+        $response = $this->actingAs($lead)
             ->get(route('evidences.attachment', ['evidence' => $evidence, 'inline' => 1]))
             ->assertOk();
+
+        $this->assertStringStartsNotWith("\n", $response->streamedContent());
     }
 
     public function test_an_unassigned_investigator_cannot_download_an_attachment(): void

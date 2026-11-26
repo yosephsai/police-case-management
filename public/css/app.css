@@ -1818,6 +1818,18 @@ body.sidebar-collapsed .app-main { margin-left: var(--sidebar-width-collapsed); 
     font-weight: 600;
 }
 
+.file-dropzone-preview {
+    max-width: 180px;
+    max-height: 130px;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-top: var(--space-1);
+}
+
 @media (max-width: 720px) {
     .workflow-stepper--3 {
         grid-template-columns: minmax(0, 1fr);

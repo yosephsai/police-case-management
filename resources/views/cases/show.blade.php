@@ -285,12 +285,20 @@
 
                     @if($evidence->attachment_path && $isImageAttachment)
                         <div class="evidence-preview">
-                            <img src="{{ route('evidences.attachment', ['evidence' => $evidence, 'inline' => 1]) }}"
-                                 alt="Attachment for {{ $evidence->evidence_number }}"
-                                 class="evidence-preview-img">
+                            <a href="{{ route('evidences.attachment', ['evidence' => $evidence, 'inline' => 1]) }}"
+                               target="_blank" rel="noopener" title="Open full-size image">
+                                <img src="{{ route('evidences.attachment', ['evidence' => $evidence, 'inline' => 1]) }}"
+                                     alt="Attachment for {{ $evidence->evidence_number }}"
+                                     class="evidence-preview-img">
+                            </a>
                             <div>
                                 <div><strong>Image attachment</strong> ({{ strtoupper($ext) }})</div>
-                                <div class="mt-2">
+                                <div class="row-actions mt-2">
+                                    <a href="{{ route('evidences.attachment', ['evidence' => $evidence, 'inline' => 1]) }}"
+                                       target="_blank" rel="noopener" class="btn btn--outline btn--sm">
+                                        @include('partials.icon', ['name' => 'view'])
+                                        View Full Size
+                                    </a>
                                     <a href="{{ route('evidences.attachment', $evidence) }}" class="btn btn--outline btn--sm">
                                         @include('partials.icon', ['name' => 'download'])
                                         Download attachment
@@ -431,6 +439,7 @@
                         <div class="file-dropzone" data-file-dropzone data-max-bytes="{{ $effectiveMaxBytes }}">
                             <input id="attachment" type="file" name="attachment" class="file-input"
                                    accept=".pdf,.jpg,.jpeg,.png,.webp,.gif,.doc,.docx,.txt">
+                            <img class="file-dropzone-preview" data-file-preview alt="Selected image preview" hidden>
                             <span class="file-dropzone-meta" data-file-meta
                                   data-default-text="Optional: JPG, PNG, WEBP, GIF, PDF, DOC, DOCX, or TXT (up to {{ $effectiveMaxMb }} MB).">
                                 Optional: JPG, PNG, WEBP, GIF, PDF, DOC, DOCX, or TXT (up to {{ $effectiveMaxMb }} MB).

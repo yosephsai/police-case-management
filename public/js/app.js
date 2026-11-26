@@ -276,7 +276,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-file-dropzone]').forEach(function (zone) {
         const input = zone.querySelector('input[type="file"]');
         const meta = zone.querySelector('[data-file-meta]');
+        const preview = zone.querySelector('[data-file-preview]');
         const maxBytes = parseInt(zone.getAttribute('data-max-bytes') || '0', 10);
+        let previewUrl = null;
 
         if (!input || !meta) {
             return;
@@ -284,10 +286,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
         input.addEventListener('change', function () {
             const file = input.files && input.files[0];
+
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+                previewUrl = null;
+            }
+
             if (!file) {
                 meta.textContent = meta.getAttribute('data-default-text') || '';
                 meta.classList.remove('is-error');
+                if (preview) {
+                    preview.removeAttribute('src');
+                    preview.hidden = true;
+                }
                 return;
+            }
+
+            if (preview) {
+                if (file.type && file.type.startsWith('image/')) {
+                    previewUrl = URL.createObjectURL(file);
+                    preview.src = previewUrl;
+                    preview.hidden = false;
+                } else {
+                    preview.removeAttribute('src');
+                    preview.hidden = true;
+                }
             }
 
             const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
